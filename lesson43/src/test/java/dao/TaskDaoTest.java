@@ -99,7 +99,7 @@ class TaskDaoTest {
     Task unfinishedTask = new Task("test task", false, LocalDateTime.now());
     taskDao.save(unfinishedTask);
 
-    Task finishedTask = new Task("test task", false, LocalDateTime.now());
+    Task finishedTask = new Task("test task", true, LocalDateTime.now());
     taskDao.save(finishedTask);
 
     assertThat(taskDao.findAllNotFinished())
