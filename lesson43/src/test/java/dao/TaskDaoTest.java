@@ -19,16 +19,28 @@ import org.junit.jupiter.api.TestInstance;
 class TaskDaoTest {
   private TaskDao taskDao;
 
+
   @BeforeAll
   public void setUp() throws IOException {
     DataSource dataSource = EmbeddedPostgres
-      .builder()
-      .start()
-      .getPostgresDatabase();
+            .builder()
+            .start()
+            .getPostgresDatabase();
 
     initializeDb(dataSource);
     taskDao = new TaskDao(dataSource);
   }
+
+//  @BeforeAll
+//  public void setUp() IOException {
+//    PGSimpleDataSource dataSourse = new PGSimpleDataSource();
+//    dataSourse.setDatabaseName("productStar");
+//    dataSourse.setUser("user");
+//    dataSourse.setPassword("password");
+//
+//    initializeDb(dataSource);
+//    taskDao = new TaskDao(dataSource);
+//  }
 
   @BeforeEach
   public void beforeEach() {
@@ -36,13 +48,13 @@ class TaskDaoTest {
   }
 
   private void initializeDb(DataSource dataSource) {
-    try(InputStream inputStream = this.getClass().getResource("/initial.sql").openStream()) {
+    try(InputStream inputStream = this.getClass().getResource("/initial.sql").openStream()) { // считать содержимое файла
       String sql = new String(inputStream.readAllBytes());
-      try(
-        Connection connection = dataSource.getConnection();
-        Statement statement = connection.createStatement()
+      try( // выполнить команду в базе
+           Connection connection = dataSource.getConnection(); // получаем соединение
+           Statement statement = connection.createStatement() // создаём из него statement
       ) {
-        statement.executeUpdate(sql);
+        statement.executeUpdate(sql); // вызываем в statement executeUpdate(sql), который изменяет данные
       }
 
     } catch (IOException | SQLException e) {
