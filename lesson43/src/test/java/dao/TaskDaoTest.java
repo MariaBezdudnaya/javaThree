@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.postgresql.ds.PGSimpleDataSource;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TaskDaoTest {
@@ -21,26 +22,15 @@ class TaskDaoTest {
 
 
   @BeforeAll
-  public void setUp() throws IOException {
-    DataSource dataSource = EmbeddedPostgres
-            .builder()
-            .start()
-            .getPostgresDatabase();
+  public void setUp()  {
+    PGSimpleDataSource dataSource = new PGSimpleDataSource();
+    dataSource.setDatabaseName("productStar");
+    dataSource.setUser("user");
+    dataSource.setPassword("password");
 
-    initializeDb(dataSource);
     taskDao = new TaskDao(dataSource);
+    initializeDb(dataSource);
   }
-
-//  @BeforeAll
-//  public void setUp() IOException {
-//    PGSimpleDataSource dataSourse = new PGSimpleDataSource();
-//    dataSourse.setDatabaseName("productStar");
-//    dataSourse.setUser("user");
-//    dataSourse.setPassword("password");
-//
-//    initializeDb(dataSource);
-//    taskDao = new TaskDao(dataSource);
-//  }
 
   @BeforeEach
   public void beforeEach() {
@@ -97,27 +87,28 @@ class TaskDaoTest {
 
   @Test
   public void testGetByIdReturnsCorrectTask() {
-    Task task = new Task("test task", false, LocalDateTime.now());
+    Task task = new Task("test task", false, LocalDateTime.of(2023, 10, 1, 12, 0));
     taskDao.save(task);
 
     assertThat(taskDao.getById(task.getId()))
-      .isNotNull()
-      .extracting("id", "title", "finished", "createdDate")
-      .containsExactly(task.getId(), task.getTitle(), task.getFinished(), task.getCreatedDate());
+            .isNotNull()
+            .extracting("id", "title", "finished", "createdDate")
+            .containsExactly(task.getId(), task.getTitle(), task.getFinished(), task.getCreatedDate());
   }
 
   @Test
-  public void testFindNotFinishedReturnsCorrectTasks()  {
-    Task unfinishedTask = new Task("test task", false, LocalDateTime.now());
+  public void testFindNotFinishedReturnsCorrectTasks() {
+    Task unfinishedTask = new Task("unfinished task", false, LocalDateTime.of(2023, 10, 1, 12, 0));
     taskDao.save(unfinishedTask);
 
-    Task finishedTask = new Task("test task", false, LocalDateTime.now());
+    Task finishedTask = new Task("finished task", true, LocalDateTime.of(2023, 10, 1, 12, 0));
     taskDao.save(finishedTask);
 
     assertThat(taskDao.findAllNotFinished())
-      .singleElement()
-      .extracting("id", "title", "finished", "createdDate")
-      .containsExactly(unfinishedTask.getId(), unfinishedTask.getTitle(), unfinishedTask.getFinished(), unfinishedTask.getCreatedDate());
+            .hasSize(1) // Убедитесь, что возвращается только одна незавершенная задача
+            .singleElement()
+            .extracting("id", "title", "finished", "createdDate")
+            .containsExactly(unfinishedTask.getId(), unfinishedTask.getTitle(), unfinishedTask.getFinished(), unfinishedTask.getCreatedDate());
   }
 
   @Test
