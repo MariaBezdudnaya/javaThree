@@ -20,7 +20,6 @@ import org.postgresql.ds.PGSimpleDataSource;
 class TaskDaoTest {
   private TaskDao taskDao;
 
-
   @BeforeAll
   public void setUp()  {
     PGSimpleDataSource dataSource = new PGSimpleDataSource();

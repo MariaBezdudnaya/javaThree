@@ -27,7 +27,7 @@ public class TaskDao {
     ) {
       statement.setString(1, task.getTitle()); // устанавливаем параметры
       statement.setBoolean(2, task.getFinished());
-      statement.setTimestamp(3, java.sql.Timestamp.from(task.getCreatedDate().atZone(ZoneId.systemDefault()).toInstant()));
+      statement.setTimestamp(3, java.sql.Timestamp.valueOf(task.getCreatedDate()));
 
       statement.executeUpdate(); // сохраняем данные
 
@@ -59,8 +59,8 @@ public class TaskDao {
         task.setId(resultSet.getInt("task_id")); // Используем long для идентификатора
         tasks.add(task);
       }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
+    } catch (SQLException throwables) {
+      throw new RuntimeException(throwables);
     }
     return tasks;
   }
@@ -72,8 +72,8 @@ public class TaskDao {
             PreparedStatement statement = connection.prepareStatement(sql)
     ) {
       return statement.executeUpdate();
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
+    } catch (SQLException throwables) {
+      throw new RuntimeException(throwables);
     }
   }
 
@@ -115,8 +115,8 @@ public class TaskDao {
         task.setId(resultSet.getInt("task_id"));
         tasks.add(task);
       }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
+    } catch (SQLException throwables) {
+      throw new RuntimeException(throwables);
     }
     return tasks;
   }
