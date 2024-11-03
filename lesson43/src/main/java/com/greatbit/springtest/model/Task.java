@@ -45,4 +45,15 @@ public class Task {
   public void setCreatedDate(LocalDateTime createdDate) {
     this.createdDate = createdDate;
   }
+
+
+  @Override
+  public String toString() {
+    return "Task{" +
+            "id='" + id + '\'' +
+            ", title =" + title +
+            ", finished='" + finished + '\'' +
+            "createdDate='" + createdDate + '\'' +
+            '}';
+  }
 }

@@ -1,13 +1,12 @@
 package dao;
 
-import entity.Task;
+import com.greatbit.springtest.model.Task;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
