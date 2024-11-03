@@ -1,4 +1,4 @@
-package entity;
+package com.greatbit.springtest.model;
 
 import java.time.LocalDateTime;
 

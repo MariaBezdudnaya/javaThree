@@ -1,4 +1,4 @@
-package dao;
+package com.greatbit.springtest.dao;
 
 import com.greatbit.springtest.model.Task;
 

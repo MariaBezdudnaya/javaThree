@@ -1,7 +1,5 @@
 package dao;
 
-import com.opentable.db.postgres.embedded.EmbeddedPostgres;
-import entity.Task;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -10,6 +8,8 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 import javax.sql.DataSource;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import com.greatbit.springtest.dao.TaskDao;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
