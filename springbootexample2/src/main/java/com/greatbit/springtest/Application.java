@@ -53,18 +53,6 @@ public class Application {
                         System.out.println(book);
                     }
                 }
-
-                try(
-                        Connection connection = dataSource.getConnection();
-                        Statement statement = connection.createStatement()
-                ) {
-                    System.out.println ("Printing books from db....");
-                    ResultSet rs = statement.executeQuery("SELECT book_id, pages, name, author FROM book");
-                    while(rs.next()) {
-                        Book book = new Book(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getString(4));
-                        System.out.println(book);
-                    }
-                }
             }
         };
     }
